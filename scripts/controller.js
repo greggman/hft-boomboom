@@ -136,9 +136,7 @@ requirejs(
       images.flames.push(cutTile(flameTileIds[ii], 0, 16));
     }
 
-    g_client = new GameClient({
-      gameId: "boomboom",
-    });
+    g_client = new GameClient();
 
     var handleScore = function() {
     };

@@ -257,9 +257,7 @@ window.g = globals;
 
   var server;
   if (globals.haveServer) {
-    var server = new GameServer({
-      gameId: "boomboom",
-    });
+    var server = new GameServer();
     g_services.server = server;
     server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));
   }
