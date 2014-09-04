@@ -27,14 +27,5 @@ If you clone this you'll need follow the following steps
 5.  edit `package.json` and change the `gameId` to some other id.
 6.  type `hft add` which will add this to happyFunTimes.
 
-Non-Demo
---------
-
-Since the whole point is to play with 10-30 people on phones this isn't really a demo
-but you can see it with 1 player here. Use the arrow keys to steer and 'z' to drop a bomb.
-When you're dead you'll control a player outside the arena. When dead press 'z' to throw a bomb, hold
-'z' to keep it bouncing.
-
-[For non-demo click here](http://greggman.github.io/hft-boomboom/local.html?settings=%7BhaveServer:false,numLocalPlayers:400,ai:true,waitForPlayersDuration:2,waitForStartDuration:2,bombStartSize:10,showFPS:true,showGithub:true%7D)
 
 
