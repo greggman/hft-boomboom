@@ -15,12 +15,12 @@ Prerequisites
 
 *   node.js http://nodejs.org
 *   bower http://bower.io
-*   happyfuntimes http://greggman.github.io/HappyFunTimes
+*   happyFunTimes http://superhappyfuntimes.net/install
 *   hft-cli http://github.com/greggman/hft-cli
 
 If you clone this you'll need follow the following steps
 
-1.  install happyfuntimes http://greggman.github.io/HappyFunTimes
+1.  install happyFunTimes http://superhappyfuntimes.net/install
 2.  install hft-cli by typing `sudo npm install -g hft-cli`
 3.  clone this repo
 4.  After cloning cd to the folder you just cloned into and type `bower install`
