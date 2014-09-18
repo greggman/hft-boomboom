@@ -31,15 +31,15 @@
 "use strict";
 
 define([
-    'hft/misc/gamebutton',
     'hft/misc/input',
     'hft/misc/misc',
+    '../bower_components/hft-utils/dist/gamebutton',
     '../bower_components/hft-utils/dist/imageutils',
     './bomb',
   ], function(
-    GameButton,
     Input,
     Misc,
+    GameButton,
     ImageProcess,
     Bomb) {
 
