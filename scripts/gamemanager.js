@@ -31,15 +31,15 @@
 "use strict";
 
 define([
-    'hft/misc/grid',
     'hft/misc/misc',
     'hft/misc/mobilehacks',
     'hft/misc/strings',
+    '../bower_components/hft-utils/dist/grid',
   ], function(
-    Grid,
     Misc,
     MobileHacks,
-    Strings) {
+    Strings,
+    Grid) {
 
   var s_validScales = [
     8, 7, 6, 5, 4, 3, 2, 1, //0.5,
