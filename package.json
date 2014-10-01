@@ -1,7 +1,7 @@
 {
   "name": "BoomBoom",
   "description": "A game with explosions",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "dependencies": {},
   "happyFunTimes": {
