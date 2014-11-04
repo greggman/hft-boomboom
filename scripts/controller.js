@@ -72,6 +72,19 @@ requirejs(
   Misc.applyUrlSettings(globals);
   MobileHacks.fixHeightHack();
   //MobileHacks.forceLandscape();
+  MobileHacks.adjustCSSBasedOnPhone([
+    {
+      test: MobileHacks.isIOS8OrNewerAndiPhone4OrIPhone5,
+      styles: {
+        "#abutton": {
+          bottom: "96px",
+        },
+        "#dpadleft, #abutton": {
+          bottom: "90px",
+        },
+      },
+    },
+  ]);
 
   function $(id) {
     return document.getElementById(id);
