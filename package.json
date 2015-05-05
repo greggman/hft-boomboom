@@ -1,14 +1,14 @@
 {
-  "name": "BoomBoom",
-  "description": "A game with explosions",
-  "version": "0.0.6",
-  "private": false,
   "dependencies": {},
+  "description": "A game with explosions",
   "happyFunTimes": {
+    "apiVersion": "1.9.0",
     "category": "game",
     "gameId": "boomboom",
     "gameType": "html",
-    "apiVersion": "1.5.0",
     "minPlayers": 2
-  }
+  },
+  "name": "BoomBoom",
+  "private": false,
+  "version": "0.0.6"
 }
