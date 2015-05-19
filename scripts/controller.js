@@ -68,10 +68,10 @@ requirejs(
   var globals = {
     debug: false,
     forceController: false,
+    orientation: "landscape-primary",
   };
   Misc.applyUrlSettings(globals);
   MobileHacks.fixHeightHack();
-  //MobileHacks.forceLandscape();
   MobileHacks.adjustCSSBasedOnPhone([
     {
       test: MobileHacks.isIOS8OrNewerAndiPhone4OrIPhone5,
@@ -86,9 +86,7 @@ requirejs(
     },
   ]);
 
-  function $(id) {
-    return document.getElementById(id);
-  }
+  var $ = document.getElementById.bind(document);
 
   var bombsCtx = $("bombs").getContext("2d");
   var bombSizeCtx = $("bombsize").getContext("2d");
