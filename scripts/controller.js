@@ -242,7 +242,6 @@ requirejs(
     var dpads = [
       new DPad({element: $("dpadleft")}),
     ];
-    var dpadSize = dpads[0].getSize();
 
     var handleAbutton = function(pressed) {
       if (g_abutton != pressed) {
@@ -285,8 +284,6 @@ requirejs(
       pads: [
         {
           referenceElement: $("dpadleft"),
-          offsetX: dpadSize / 2,
-          offsetY: dpadSize / 2,
         },
       ],
     });
