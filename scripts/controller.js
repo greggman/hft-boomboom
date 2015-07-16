@@ -93,6 +93,7 @@ requirejs(
   var msgContainerStyle = $("msgcontainer").style;
   var msgText = Misc.createTextNode($("msg"));
   var msgContainerOriginalDisplay = msgContainerStyle.display;
+  var msgTimeoutId;
 
   var flashNdx;
   var ticker = new Ticker();
@@ -107,11 +108,18 @@ requirejs(
     });
   };
 
-  var showMsg = function(msg, color) {
+  var showMsg = function(msg, color, timeout) {
     cancelFlash()
     msgContainerStyle.backgroundColor = color;
     msgContainerStyle.display = msgContainerOriginalDisplay;
     msgText.nodeValue = msg;
+    if (msgTimeoutId) {
+      clearTimeout(msgTimeoutId);
+      msgTimeoutId = undefined;
+    }
+    if (timeout) {
+      msgTimeoutId = setTimeout(hideMsg, timeout * 1000);
+    }
   };
 
   var hideMsg = function() {
@@ -183,7 +191,7 @@ requirejs(
     };
 
     var handleSpoil = function() {
-      hideMsg();
+      showMsg("Take Revenge!", "green", 2);
     };
 
     var handleSetColor = function(msg) {

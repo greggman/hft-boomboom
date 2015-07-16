@@ -168,6 +168,21 @@ define([
     freeBombs.push(bomb);
   };
 
+  var lerpValue = function(a, b, l) {
+    return a + (b - a) * l;
+  };
+
+  var clamp01 = function(a) {
+    return Math.min(1, Math.max(0, a));
+  };
+
+  var easeInOutCubic = function(pos) {
+    if ((pos /= 0.5) < 1) {
+      return 0.5 * Math.pow(pos, 3);
+    }
+    return 0.5 * (Math.pow((pos - 2), 3) + 2);
+  }
+
   /**
    * Player represents a player in the game.
    * @constructor
@@ -190,6 +205,8 @@ define([
       services.drawSystem.addEntity(this);
       this.netPlayer = netPlayer;
       this.position = position;
+      this.targetPosition = [0, 0];
+      this.oldPosition = [0, 0];
 
       if (availableColors.length == 0) {
         var avatar = this.services.images.avatar;
@@ -719,7 +736,8 @@ define([
     this.rotation += globals.dieRotationSpeed * globals.elapsedTime;
     this.dieTimer += globals.elapsedTime;
     if (this.dieTimer >= globals.dieDuration) {
-      this.setState('evaporate');
+//      this.setState('evaporate');
+      this.setState('reappear');
     }
   };
 
@@ -765,7 +783,6 @@ define([
     var tileWidth = 16;
     var tileHeight = 16;
     this.display = true;
-    this.rotation = 0;
     this.scale = 1;
     this.sprite.uniforms.u_hsvaAdjust = this.color.hsv.slice();
     this.rail = Misc.randInt(4);
@@ -773,17 +790,20 @@ define([
     this.setBombSize(globals.bombSpoilSize);
     this.services.audioManager.playSound('reappear');
 
+    this.oldPosition[0] = this.position[0];
+    this.oldPosition[1] = this.position[1];
+
     switch (this.rail) {
       case 0:
       case 2:
-        this.position[0] = (this.rail == 2 ? 1 : 0) * (levelManager.tilesAcross - 1) * tileWidth + tileWidth / 2;
-        this.position[1] = (1 + Misc.randInt(levelManager.tilesDown - 2)) * tileHeight + tileHeight / 2;
+        this.targetPosition[0] = (this.rail == 2 ? 1 : 0) * (levelManager.tilesAcross - 1) * tileWidth + tileWidth / 2;
+        this.targetPosition[1] = (1 + Misc.randInt(levelManager.tilesDown - 2)) * tileHeight + tileHeight / 2;
         this.inRow = false;
         break;
       case 1:
       case 3:
-        this.position[0] = (1 + Misc.randInt(levelManager.tilesAcross - 2)) * tileWidth + tileWidth / 2;
-        this.position[1] = (this.rail == 3 ? 1 : 0) * (levelManager.tilesDown - 1) * tileHeight + tileHeight / 2;
+        this.targetPosition[0] = (1 + Misc.randInt(levelManager.tilesAcross - 2)) * tileWidth + tileWidth / 2;
+        this.targetPosition[1] = (this.rail == 3 ? 1 : 0) * (levelManager.tilesDown - 1) * tileHeight + tileHeight / 2;
         this.inRow = true;
         break;
     }
@@ -798,16 +818,24 @@ define([
     this.setFacing(railInfo.facing);
     this.dieTimer += globals.elapsedTime;
 
-    var lerp = this.dieTimer / globals.reappearDuration;
-    this.sprite.uniforms.u_hsvaAdjust[2] = Math.max(0, 2 - lerp * 2);
-    this.sprite.uniforms.u_hsvaAdjust[3] = Math.min(0, -1 + lerp * 2);
+    var lerp = clamp01(this.dieTimer / globals.reappearDuration);
+    this.sprite.uniforms.u_hsvaAdjust[2] = Math.abs(Math.cos(lerp * 20 * Math.PI)) * (1 - lerp);
+    this.rotation += globals.dieRotationSpeed * globals.elapsedTime;
+
+    var easeLerp = easeInOutCubic(lerp);
+    this.position[0] = lerpValue(this.oldPosition[0], this.targetPosition[0], easeLerp);
+    this.position[1] = lerpValue(this.oldPosition[1], this.targetPosition[1], easeLerp);
 
     if (this.dieTimer >= globals.reappearDuration) {
+      this.position[0] = this.targetPosition[0];
+      this.position[1] = this.targetPosition[1];
       this.setState('spoil');
     }
   };
 
   Player.prototype.init_spoil = function() {
+    this.scale = 1;
+    this.rotation = 0;
     this.sprite.uniforms.u_hsvaAdjust = this.color.hsv.slice();
     this.lastBombLobbed = undefined;
     this.sendCmd('spoil');
