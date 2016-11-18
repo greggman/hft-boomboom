@@ -32,30 +32,31 @@
 
 // Start the main app logic.
 requirejs(
-  [ 'hft/commonui',
-    'hft/gameclient',
-    'hft/misc/dpad',
-    'hft/misc/input',
-    'hft/misc/misc',
-    'hft/misc/mobilehacks',
-    'hft/misc/ticker',
-    'hft/misc/touch',
+  [
+    '../node_modules/happyfuntimes/dist/hft',
+    '../node_modules/hft-sample-ui/dist/sample-ui',
+    '../node_modules/hft-game-utils/dist/game-utils',
     '../bower_components/hft-utils/dist/audio',
     '../bower_components/hft-utils/dist/imageloader',
     '../bower_components/hft-utils/dist/imageutils',
   ],
   function(
-    CommonUI,
-    GameClient,
-    DPad,
-    Input,
-    Misc,
-    MobileHacks,
-    Ticker,
-    Touch,
+    hft,
+    sampleUI,
+    gameUtils,
     AudioManager,
     ImageLoader,
     ImageProcess) {
+
+  var GameClient = hft.GameClient;
+  var commonUI = sampleUI.commonUI;
+  var DPad = sampleUI.DPad;
+  var input = sampleUI.input;
+  var misc = sampleUI.misc;
+  var mobileHacks = sampleUI.mobileHacks;
+  var Ticker = gameUtils.Ticker;
+  var touch = sampleUI.touch;
+
   var g_client;
   var g_audioManager;
   var g_clock;
@@ -70,11 +71,11 @@ requirejs(
     forceController: false,
     orientation: "landscape-primary",
   };
-  Misc.applyUrlSettings(globals);
-  MobileHacks.fixHeightHack();
-  MobileHacks.adjustCSSBasedOnPhone([
+  misc.applyUrlSettings(globals);
+  mobileHacks.fixHeightHack();
+  mobileHacks.adjustCSSBasedOnPhone([
     {
-      test: MobileHacks.isIOS8OrNewerAndiPhone4OrIPhone5,
+      test: mobileHacks.isIOS8OrNewerAndiPhone4OrIPhone5,
       styles: {
         "#abutton": {
           bottom: "96px",
@@ -91,7 +92,7 @@ requirejs(
   var bombsCtx = $("bombs").getContext("2d");
   var bombSizeCtx = $("bombsize").getContext("2d");
   var msgContainerStyle = $("msgcontainer").style;
-  var msgText = Misc.createTextNode($("msg"));
+  var msgText = misc.createTextNode($("msg"));
   var msgContainerOriginalDisplay = msgContainerStyle.display;
   var msgTimeoutId;
 
@@ -206,7 +207,7 @@ requirejs(
     };
 
     var handleNumBombs = function(msg) {
-      Misc.resize(bombsCtx.canvas);
+      misc.resize(bombsCtx.canvas);
       bombsCtx.clearRect(0, 0, bombsCtx.canvas.width, bombsCtx.canvas.height);
       for (var ii = 0; ii < msg.numBombs; ++ii) {
         bombsCtx.drawImage(images.bomb, ii * 16, 0);
@@ -214,7 +215,7 @@ requirejs(
     };
 
     var handleBombSize = function(msg) {
-      Misc.resize(bombSizeCtx.canvas);
+      misc.resize(bombSizeCtx.canvas);
       bombSizeCtx.clearRect(0, 0, bombSizeCtx.canvas.width, bombSizeCtx.canvas.height);
       bombSizeCtx.drawImage(images.flames[1], 0, 0);
       for (var ii = 1; ii <= msg.size; ++ii) {
@@ -245,7 +246,7 @@ requirejs(
     var sounds = {};
     g_audioManager = new AudioManager(sounds);
 
-    CommonUI.setupStandardControllerUI(g_client, globals);
+    commonUI.setupStandardControllerUI(g_client, globals);
 
     var dpads = [
       new DPad({element: $("dpadleft")}),
@@ -272,10 +273,10 @@ requirejs(
     var keys = { };
     keys["Z".charCodeAt(0)] = function(e) { handleAbutton(e.pressed); }
     keys["X".charCodeAt(0)] = function(e) { handleShow(e.pressed); }
-    Input.setupKeys(keys);
-    Input.setupKeyboardDPadKeys(handleDPad, Input.kASWDPadOnly);
+    input.setupKeys(keys);
+    input.setupKeyboardDPadKeys(handleDPad, input.kASWDPadOnly);
 
-    Touch.setupButtons({
+    touch.setupButtons({
       inputElement: $("buttons"),
       buttons: [
         { element: $("abuttoninput"), callback: function(e) { handleAbutton(e.pressed); }, },
@@ -283,7 +284,7 @@ requirejs(
       ],
     });
 
-    Touch.setupVirtualDPads({
+    touch.setupVirtualDPads({
       inputElement: $("dpadleftinput"),
       callback: handleDPad,
       fixedCenter: true,

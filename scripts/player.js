@@ -31,17 +31,17 @@
 "use strict";
 
 define([
-    'hft/misc/input',
-    'hft/misc/misc',
+    'hft-sample-ui',
     '../bower_components/hft-utils/dist/gamebutton',
     '../bower_components/hft-utils/dist/imageutils',
     './bomb',
   ], function(
-    Input,
-    Misc,
+    sampleUI,
     GameButton,
     ImageProcess,
     Bomb) {
+
+  var misc = sampleUI.misc;
 
   var availableColors = [];
   var nameFontOptions = {
@@ -555,13 +555,13 @@ define([
     // stairing me in the face :(
     if (this.inRow) {
       if (!moveDX && moveDY) {
-        var t = Math.abs(moveDY) * Misc.sign(dxFromCenterOfTargetCol);
-        moveDX = Misc.minToZero(dxFromCenterOfTargetCol, t);
+        var t = Math.abs(moveDY) * misc.sign(dxFromCenterOfTargetCol);
+        moveDX = misc.minToZero(dxFromCenterOfTargetCol, t);
       }
       if (moveDY) {
         var newX = this.position[0] + moveDX;
         var newDxFromCenterOfCol = centerOfCol - newX;
-        if (dxFromCenterOfCol == 0 || Misc.sign(newDxFromCenterOfCol) != Misc.sign(dxFromCenterOfCol)) {
+        if (dxFromCenterOfCol == 0 || misc.sign(newDxFromCenterOfCol) != misc.sign(dxFromCenterOfCol)) {
           moveDX = dxFromCenterOfCol;
           if (!onRail) {
             this.inRow = false;
@@ -572,13 +572,13 @@ define([
       }
     } else {
       if (!moveDY && moveDX) {
-        var t = Math.abs(moveDX) * Misc.sign(dyFromCenterOfTargetRow);
-        moveDY = Misc.minToZero(dyFromCenterOfTargetRow, t);
+        var t = Math.abs(moveDX) * misc.sign(dyFromCenterOfTargetRow);
+        moveDY = misc.minToZero(dyFromCenterOfTargetRow, t);
       }
       if (moveDX) {
         var newY = this.position[1] + moveDY;
         var newDyFromCenterOfRow = centerOfRow - newY;
-        if (dyFromCenterOfRow == 0 || Misc.sign(newDyFromCenterOfRow) != Misc.sign(dyFromCenterOfRow)) {
+        if (dyFromCenterOfRow == 0 || misc.sign(newDyFromCenterOfRow) != misc.sign(dyFromCenterOfRow)) {
           moveDY = dyFromCenterOfRow;
           if (!onRail) {
             this.inRow = true;
@@ -603,14 +603,14 @@ define([
         newX = Math.min((levelManager.tilesAcross - 2) * tileWidth + tileWidth / 2, newX);
         moveDX = newX - this.position[0];
       } else {
-        var tileX = newX + tileWidth  / 2 * Misc.sign(moveDX);
+        var tileX = newX + tileWidth  / 2 * misc.sign(moveDX);
         var tileY = newY;
         var tile = levelManager.layer1.getTileByPixels(tileX, tileY);
         var tileInfo = levelManager.getTileInfo(tile);
         if (tileInfo.info.solid) {
           // Where ever we were standing was safe so don't move us back further than that.
           // This will allow us to walk off a bomb?
-          moveDX = (Misc.sign(dxFromCenterOfTile) == Misc.sign(moveDX)) ? dxFromCenterOfTile : 0;
+          moveDX = (misc.sign(dxFromCenterOfTile) == misc.sign(moveDX)) ? dxFromCenterOfTile : 0;
         }
       }
     }
@@ -625,13 +625,13 @@ define([
         moveDY = newY - this.position[1];
       } else {
         var tileX = newX;
-        var tileY = newY + tileHeight / 2 * Misc.sign(moveDY);
+        var tileY = newY + tileHeight / 2 * misc.sign(moveDY);
         var tile = levelManager.layer1.getTileByPixels(tileX, tileY);
         var tileInfo = levelManager.getTileInfo(tile);
         if (tileInfo.info.solid) {
           // Where ever we were standing was safe so don't move us back further than that.
           // This will allow us to walk off a bomb?
-          moveDY = (Misc.sign(dyFromCenterOfTile) == Misc.sign(moveDY)) ? dyFromCenterOfTile : 0;
+          moveDY = (misc.sign(dyFromCenterOfTile) == misc.sign(moveDY)) ? dyFromCenterOfTile : 0;
         }
       }
     }
@@ -785,7 +785,7 @@ define([
     this.display = true;
     this.scale = 1;
     this.sprite.uniforms.u_hsvaAdjust = this.color.hsv.slice();
-    this.rail = Misc.randInt(4);
+    this.rail = misc.randInt(4);
     this.resetNumBombs(globals.numSpoilBombs);
     this.setBombSize(globals.bombSpoilSize);
     this.services.audioManager.playSound('reappear');
@@ -797,12 +797,12 @@ define([
       case 0:
       case 2:
         this.targetPosition[0] = (this.rail == 2 ? 1 : 0) * (levelManager.tilesAcross - 1) * tileWidth + tileWidth / 2;
-        this.targetPosition[1] = (1 + Misc.randInt(levelManager.tilesDown - 2)) * tileHeight + tileHeight / 2;
+        this.targetPosition[1] = (1 + misc.randInt(levelManager.tilesDown - 2)) * tileHeight + tileHeight / 2;
         this.inRow = false;
         break;
       case 1:
       case 3:
-        this.targetPosition[0] = (1 + Misc.randInt(levelManager.tilesAcross - 2)) * tileWidth + tileWidth / 2;
+        this.targetPosition[0] = (1 + misc.randInt(levelManager.tilesAcross - 2)) * tileWidth + tileWidth / 2;
         this.targetPosition[1] = (this.rail == 3 ? 1 : 0) * (levelManager.tilesDown - 1) * tileHeight + tileHeight / 2;
         this.inRow = true;
         break;

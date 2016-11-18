@@ -31,9 +31,11 @@
 "use strict";
 
 define([
-    'hft/misc/misc',
+    'hft-sample-ui',
     './player',
-  ], function(Misc, Player) {
+  ], function(sampleUI, Player) {
+
+  var misc = sampleUI.misc;
 
   var clearOffsets = [
     { x:  0, y:  0, },
@@ -105,7 +107,7 @@ window.p = this.players;
     // To corners add numPlayers - 4 random others.
     var numNeeded = this.players.length - 4;
     for (var ii = 0; ii < numNeeded; ++ii) {
-      var index = Misc.randInt(others.length);
+      var index = misc.randInt(others.length);
       corners.push(others.splice(index, 1)[0]);
     }
 
@@ -114,7 +116,7 @@ window.p = this.players;
 
     // now choose random places to start players from valid place.
     this.forEachPlayer(function(player, ii) {
-      var index = Misc.randInt(corners.length);
+      var index = misc.randInt(corners.length);
       var pos = corners.splice(index, 1)[0];
       var tx = pos.x;
       var ty = pos.y;

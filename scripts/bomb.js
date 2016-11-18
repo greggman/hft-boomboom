@@ -37,7 +37,7 @@ define([
     '../bower_components/tdl/tdl/models',
     '../bower_components/tdl/tdl/primitives',
     '../bower_components/tdl/tdl/programs',
-    'hft/misc/misc',
+    'hft-sample-ui',
   ], function(
     Buffers,
     Fast,
@@ -45,7 +45,9 @@ define([
     Models,
     Primitives,
     Programs,
-    Misc) {
+    sampleUI) {
+
+  const misc = sampleUI.misc;
 
   var g_services;
   var bombFrames;
@@ -401,7 +403,7 @@ define([
       var placedCrate = false;
       if (tileInfo.info.crate) {
         // change this to a random crate.
-        var crateType = globals.crateProbTable[Misc.randInt(globals.crateProbTable.length)];
+        var crateType = globals.crateProbTable[misc.randInt(globals.crateProbTable.length)];
         if (crateType.tileName != 'empty') {
           layer.setTile(nx, ny, tiles[crateType.tileName].id);
           placedCrate = true;
@@ -598,8 +600,8 @@ define([
     var dxFromCenterOfTile = centerOfTileX - this.position[0];
     var dyFromCenterOfTile = centerOfTileY - this.position[1];
 
-    if (Misc.sign(this.oldDxToCenter) != Misc.sign(dxFromCenterOfTile) ||
-        Misc.sign(this.oldDyToCenter) != Misc.sign(dyFromCenterOfTile)) {
+    if (misc.sign(this.oldDxToCenter) != misc.sign(dxFromCenterOfTile) ||
+        misc.sign(this.oldDyToCenter) != misc.sign(dyFromCenterOfTile)) {
       this.oldDxToCenter = dxFromCenterOfTile;
       this.oldDyToCenter = dyFromCenterOfTile;
       if (Math.abs(dxFromCenterOfTile) < 2 && Math.abs(dyFromCenterOfTile) < 2) {

@@ -31,15 +31,15 @@
 "use strict";
 
 define([
-    'hft/misc/misc',
-    'hft/misc/mobilehacks',
-    'hft/misc/strings',
+    'hft-sample-ui',
     '../bower_components/hft-utils/dist/grid',
   ], function(
-    Misc,
-    MobileHacks,
-    Strings,
+    sampleUI,
     Grid) {
+
+  var misc = sampleUI.misc;
+  var mobileHacks = sampleUI.mobileHacks;
+  var strings = sampleUI.strings;
 
   var s_validScales = [
     8, 7, 6, 5, 4, 3, 2, 1, //0.5,
@@ -54,10 +54,10 @@ define([
     this.services.entitySystem.addEntity(this);
     this.timeContainer = $("timeContainer");
     this.timeStyle = $("time").style;
-    this.timeNode = Misc.createTextNode($("time"));
+    this.timeNode = misc.createTextNode($("time"));
     this.overlay = $("overlay-inner");
-    this.overlayLine1 = Misc.createTextNode($("overlay-line1"));
-    this.overlayLine2 = Misc.createTextNode($("overlay-line2"));
+    this.overlayLine1 = misc.createTextNode($("overlay-line1"));
+    this.overlayLine2 = misc.createTextNode($("overlay-line2"));
     this.setState('waitForPlayers');
   };
 
@@ -75,7 +75,7 @@ define([
       this.oldRoundTimer = time;
       var mins = time / 60 | 0;
       var seconds = time % 60;
-      this.timeNode.nodeValue = Strings.padLeft(mins, 2, '0') + ":" + Strings.padLeft(seconds, 2, '0');
+      this.timeNode.nodeValue = strings.padLeft(mins, 2, '0') + ":" + strings.padLeft(seconds, 2, '0');
     }
     var globals = this.services.globals;
     var color = time > 15 ? 'white' : ((globals.frameCount & 8) ? 'white' : 'red');
@@ -92,7 +92,7 @@ define([
   };
 
   GameManager.prototype.reset = function() {
-    MobileHacks.fixHeightHack();
+    mobileHacks.fixHeightHack();
     var services = this.services;
     var levelManager = services.levelManager;
     var playerManager = services.playerManager;
@@ -155,7 +155,7 @@ define([
         txt.nodeValue = "" + x + "," + y;
         services.gridTable[y].push(txt);
       });
-      var rule = Misc.findCSSStyleRule("#grid td");
+      var rule = misc.findCSSStyleRule("#grid td");
       if (rule) {
         rule.style.width  = tileWidth * globals.scale + "px";
         rule.style.height = tileHeight * globals.scale + "px";
@@ -208,7 +208,7 @@ define([
     var globals = this.services.globals;
     var numPlayers = this.services.playerManager.getNumPlayersConnected();
 
-    var timeStr = Strings.padLeft((this.timer | 0), 2, '0');
+    var timeStr = strings.padLeft((this.timer | 0), 2, '0');
 
     this.overlayLine1.nodeValue = "Start In: " + ((numPlayers < 2 || (globals.frameCount & 16)) ? timeStr : '');
     this.overlayLine2.nodeValue = "Players: " + numPlayers + ((globals.frameCount & 16) && numPlayers < 2 ? ' Need 2+' : '');

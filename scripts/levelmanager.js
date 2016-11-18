@@ -31,9 +31,11 @@
 "use strict";
 
 define([
-    'hft/misc/misc',
+    'hft-sample-ui',
     '../bower_components/hft-utils/dist/tilemap',
-  ], function(Misc, TileMap) {
+  ], function(sampleUI, TileMap) {
+
+  var misc = sampleUI.misc;
 
   var iEmpty = {
     bombOk: true,
@@ -377,10 +379,10 @@ define([
     var rowsCols = [rows, cols]
 
     var pickValidPosition = function() {
-      var rc = rowsCols[Misc.randInt(2)];
+      var rc = rowsCols[misc.randInt(2)];
       var pos = [];
       for (var ii = 0; ii < 2; ++ii) {
-        pos.push(Misc.randInt(rc[ii].range) * rc[ii].mult + 1);
+        pos.push(misc.randInt(rc[ii].range) * rc[ii].mult + 1);
       };
       return pos;
     };
@@ -407,7 +409,7 @@ define([
     for (var ii = 0; ii < stuff.length; ++ii) {
       var s = stuff[ii];
       for (var jj = 0; jj < s.count; ++jj) {
-        var ndx = Misc.randInt(freeSpots.length);
+        var ndx = misc.randInt(freeSpots.length);
         var p = freeSpots[ndx];
         freeSpots.splice(ndx, 1);
         var t = layer1.getTile(p[0], p[1]);

@@ -30,18 +30,22 @@
  */
 "use strict";
 
+const requirejs = require('requirejs');
+requirejs.config({
+  nodeRequire: require,
+  baseUrl: __dirname,
+});
+
+
 function $(id) {
   return document.getElementById(id);
 }
 
 // Start the main app logic.
 requirejs(
-  [ 'hft/gameserver',
-    'hft/localnetplayer',
-    'hft/gamesupport',
-    'hft/misc/input',
-    'hft/misc/misc',
-    'hft/misc/timeout',
+  [ 'happyfuntimes',
+    'hft-game-utils',
+    'hft-sample-ui',
     '../bower_components/tdl/tdl/textures',
     '../bower_components/tdl/tdl/webgl',
     '../bower_components/hft-utils/dist/audio',
@@ -55,12 +59,9 @@ requirejs(
     './webglrenderer',
   ],
   function(
-    GameServer,
-    LocalNetPlayer,
-    GameSupport,
-    Input,
-    Misc,
-    Timeout,
+    hft,
+    gameUtils,
+    sampleUI,
     Textures,
     WebGL,
     AudioManager,
@@ -73,6 +74,13 @@ requirejs(
     PlayerManager,
     WebGLRenderer) {
 
+  var GameServer = hft.GameServer;
+  var LocalNetPlayer = hft.LocalNetPlayer;
+  var gameSupport = gameUtils.gameSupport;
+  var timeout = gameUtils.timeout;
+  var input = sampleUI.input;
+  var misc = sampleUI.misc;
+
   var g_debug = false;
   var g_services = {};
 window.s = g_services;
@@ -84,14 +92,14 @@ window.s = g_services;
   var g_playerManager = new PlayerManager(g_services);
   g_services.playerManager = g_playerManager;
   g_services.bombManager = new EntitySystem();
-  g_services.misc = Misc;
+  g_services.Misc = misc;
   var stop = false;
 
   // You can set these from the URL with
   // http://path/gameview.html?settings={name:value,name:value}
   var globals = {
     haveServer: true,
-    numLocalPlayers: 0,  // num players when local (ie, debugger)
+    numLocalPlayers: 10,  // num players when local (ie, debugger)
     ai: false,
     debug: false,
     tileInspector: false,
@@ -170,9 +178,9 @@ window.g = globals;
 
     if (globals.ai) {
       for (var ii = 2; ii < netPlayers.length; ++ii) {
-        Timeout.setInterval(function(netPlayer) {
+        timeout.setInterval(function(netPlayer) {
           return function() {
-            var r = Misc.randInt(7);
+            var r = misc.randInt(7);
             switch (r) {
             case 0:
             case 1:
@@ -186,7 +194,7 @@ window.g = globals;
               break;
             }
           };
-        }(netPlayers[ii]), 1000 + Misc.randInt(1000));
+        }(netPlayers[ii]), 1000 + misc.randInt(1000));
       }
     }
 
@@ -246,22 +254,22 @@ window.g = globals;
     keys["B".charCodeAt(0)] = function(e) { handleAbutton(1, e.pressed); }
     keys["N".charCodeAt(0)] = function(e) { handleShow(1, e.pressed); }
     keys["C".charCodeAt(0)] = function(e) { handleTestSound(e.pressed); }
-    Input.setupKeys(keys);
-    Input.setupKeyboardDPadKeys(handleDPad);
+    input.setupKeys(keys);
+    input.setupKeyboardDPadKeys(handleDPad);
   }
 
-  Misc.applyUrlSettings(globals);
+  misc.applyUrlSettings(globals);
 
   g_services.globals = globals;
 
   var server;
   if (globals.haveServer) {
-    var server = new GameServer();
+    var server = new GameServer({url: "ws://localhost:8080"});  // FIX!!!!
     g_services.server = server;
     server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));
   }
 
-  GameSupport.init(server, globals);
+  gameSupport.init(server, globals);
   var gameManager = new GameManager(g_services);
   g_services.gameManager = gameManager;
 
@@ -289,7 +297,7 @@ window.g = globals;
     s.pointerEvents = "none";
     document.body.appendChild(element);
     $("canvas").addEventListener('mousemove', function(e) {
-      var pos = Input.getRelativeCoordinates(e.target, e);
+      var pos = input.getRelativeCoordinates(e.target, e);
       var level = g_levelManager.getLevel();
       var offset = level.getTransformOffset(levelCtx);
       var x = pos.x - offset.x;
@@ -422,7 +430,7 @@ window.g = globals;
         gameManager.reset();
       }
 
-      Timeout.process(globals.elapsedTime);
+      timeout.process(globals.elapsedTime);
       g_services.entitySystem.processEntities();
 
       renderer.begin();
@@ -441,7 +449,7 @@ window.g = globals;
       renderer.end();
     };
 
-    GameSupport.run(globals, mainloop);
+    gameSupport.run(globals, mainloop);
   };
 
   ImageLoader.loadImages(images, processImages);
