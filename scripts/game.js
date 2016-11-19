@@ -54,6 +54,7 @@ requirejs(
     '../bower_components/hft-utils/dist/imageutils',
     '../bower_components/hft-utils/dist/spritemanager',
     './gamemanager',
+    './gamepad',
     './levelmanager',
     './playermanager',
     './webglrenderer',
@@ -70,6 +71,7 @@ requirejs(
     ImageProcess,
     SpriteManager,
     GameManager,
+    GamepadManager,
     LevelManager,
     PlayerManager,
     WebGLRenderer) {
@@ -99,7 +101,8 @@ window.s = g_services;
   // http://path/gameview.html?settings={name:value,name:value}
   var globals = {
     haveServer: true,
-    numLocalPlayers: 10,  // num players when local (ie, debugger)
+    numLocalPlayers: 0,  // num players when local (ie, debugger)
+    hftUrl: "ws://localhost:18679",
     ai: false,
     debug: false,
     tileInspector: false,
@@ -264,7 +267,7 @@ window.g = globals;
 
   var server;
   if (globals.haveServer) {
-    var server = new GameServer({url: "ws://localhost:8080"});  // FIX!!!!
+    var server = new GameServer({url: globals.hftUrl});
     g_services.server = server;
     server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));
   }
@@ -419,6 +422,12 @@ window.g = globals;
     // Add a 2 players if there is no communication
     startLocalPlayers();
 
+    // Add Gamepads
+    g_services.gamepadManager = new GamepadManager()
+    g_services.gamepadManager.on('playerconnect', (player, ndx) => {
+      g_playerManager.startPlayer(player, "GamePad" + (ndx + 1));
+    });
+
     // make the level after making the players. This calls
     // player reset.
     gameManager.reset();
@@ -431,6 +440,7 @@ window.g = globals;
       }
 
       timeout.process(globals.elapsedTime);
+      g_services.gamepadManager.process();
       g_services.entitySystem.processEntities();
 
       renderer.begin();
