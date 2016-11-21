@@ -93,6 +93,7 @@ console.log("mapping:", mapping);
       this._mapping = mapping;
       this._dir = -1;
       this._button = false;
+      this._show = false;
     }
     process() {
       const gamepad = this._gamepad;
@@ -108,9 +109,8 @@ console.log("mapping:", mapping);
         ((getButton(buttons, buttonMapping.right  ) || xAxis >  0.5) ? RIGHT : 0) | // right
         ((getButton(buttons, buttonMapping.up     ) || yAxis < -0.5) ? UP    : 0) | // up
         ((getButton(buttons, buttonMapping.down   ) || yAxis >  0.5) ? DOWN  : 0) ; // down
-      const button =
-        ((getButton(buttons, buttonMapping.buttonA)) ? 0x10 : 0) ||
-        ((getButton(buttons, buttonMapping.buttonB)) ? 0x20 : 0) ;
+      const button = getButton(buttons, buttonMapping.buttonA);
+      const show   = getButton(buttons, buttonMapping.buttonB);
       const dir = bitsToDir[bits];
       if (dir >= -1) {
         if (this._dir !== dir) {
@@ -121,6 +121,10 @@ console.log("mapping:", mapping);
       if (button != this._button) {
         this._button = button;
         this.sendEvent('abutton', {abutton: button});
+      }
+      if (show != this._show) {
+        this._show = show;
+        this.sendEvent('show', {show: show});
       }
     }
     disconnect() {
