@@ -3,6 +3,42 @@
 const isOSX = process.platform === 'darwin';
 const isDevMode = process.env.NODE_ENV === 'development';
 
+var optionSpec = {
+  options: [
+   { option: 'port', alias: 'p', type: 'Int',     description: 'port. Default 18679'},
+   { option: 'dns',              type: 'Boolean', description: 'enable dns server'},
+   { option: 'address',          type: 'String',  description: 'ip address for dns and controller url conversion'},
+   { option: 'help', alias: 'h', type: 'Boolean', description: 'displays help'},
+   { option: 'private-server',   type: 'Boolean', description: 'do not inform happyfuntimes.net about this server. Users will not be able to use happyfuntimes.net to connect to your games'},
+   { option: 'debug',            type: 'Boolean', description: 'check more things'},
+   { option: 'verbose',          type: 'Boolean', description: 'print more stuff'},
+   { option: 'system-name',      type: 'String',  description: 'name used if multiple happyFunTimes servers are running on the same network. Default = computer name'},
+  ],
+  helpStyle: {
+    typeSeparator: '=',
+    descriptionSeparator: ' : ',
+    initialIndent: 4,
+  },
+};
+
+const optionator = require('optionator')(optionSpec);
+
+try {
+  var args = optionator.parse(process.argv);
+} catch (e) {
+  console.error(e);
+  process.exit(1);  // eslint-disable-line
+}
+
+function printHelp() {
+  console.log(optionator.generateHelp());
+  process.exit(0);  // eslint-disable-line
+}
+
+if (args.help) {
+  printHelp();
+}
+
 const happyfuntimes = require('happyfuntimes');
 const electron = require('electron');
 const querystring = require('querystring');
@@ -14,15 +50,8 @@ let gameWindow = null;
 let setupSteps = 2;
 const state = {};
 
-happyfuntimes.start({
-  // port: 18679,
-  // dns: true,
-  // address: 127.0.0.1,
-  // verbose: true,
-  // debug: true,
-  // system-name: 'MyGameSystem',
-  // private-server: true,
-})
+args.baseDir = __dirname;
+happyfuntimes.start(args)
 .then((ports) => {
   console.log("Listening on ports:", ports);
   state.ports = ports;
