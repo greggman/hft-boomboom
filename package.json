@@ -1,11 +1,21 @@
 {
   "name": "hft-boomboom",
+  "productName": "BoomBoom",
+  "description": "A Massively local multiplayer game with bombs",
   "version": "1.0.0",
-  "description": "A game with boomboom",
+  "build": {
+    "appId": "com.greggman.hftBoomBoom",
+    "asar": false,
+    "mac": {
+      "category": "public.app-category.games"
+    }
+  },
   "main": "main.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development electron main.js",
-    "startp": "cross-env NODE_ENV=production electron main.js"
+    "startp": "cross-env NODE_ENV=production electron main.js",
+    "pack": "build --dir",
+    "dist": "build"
   },
   "repository": {
     "type": "git",
@@ -24,10 +34,14 @@
   "homepage": "https://github.com/greggman/hft-boomboom#readme",
   "dependencies": {
     "happyfuntimes": "^1.0.0",
+    "hft-game-utils": "^1.0.0",
+    "hft-sample-ui": "^1.0.0",
+    "optionator": "^0.8.2",
     "requirejs": "^2.3.2"
   },
   "devDependencies": {
     "cross-env": "^3.1.3",
-    "electron": "^1.4.5"
+    "electron": "^1.4.5",
+    "electron-builder": "^8.6.0"
   }
 }
