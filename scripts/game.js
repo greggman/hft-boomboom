@@ -102,7 +102,6 @@ window.s = g_services;
   var globals = {
     haveServer: true,
     numLocalPlayers: 0,  // num players when local (ie, debugger)
-    hftUrl: "ws://localhost:18679",
     ai: false,
     debug: false,
     tileInspector: false,
@@ -267,7 +266,7 @@ window.g = globals;
 
   var server;
   if (globals.haveServer) {
-    var server = new GameServer({url: globals.hftUrl});
+    var server = new GameServer();
     g_services.server = server;
     server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));
   }
