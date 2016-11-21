@@ -65,7 +65,7 @@ define([
 
   const mappings = {
     standard: {
-      buttons: { left: 14, right: 15, up: 12, down: 13, buttonA: 0, buttonB: 1 }, axes: { upDown: 1, leftRight: 0 },
+      buttons: { left: 14, right: 15, up: 12, down: 13, buttonA: 1, buttonB: 0 }, axes: { upDown: 1, leftRight: 0 },
     },
     // This was my wired xbox controller on OSX Firefox 38
     unknown: {
