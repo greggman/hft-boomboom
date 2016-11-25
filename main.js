@@ -87,6 +87,18 @@ function createWindow() {
   if (isDevMode) {
     gameWindow.webContents.openDevTools();
   }
+
+  // open links in browser
+  const webContents = gameWindow.webContents;
+  const handleRedirect = (e, url) => {
+    if(url != webContents.getURL()) {
+      e.preventDefault();
+      electron.shell.openExternal(url);
+    }
+  };
+
+  webContents.on('will-navigate', handleRedirect);
+  webContents.on('new-window', handleRedirect);
 }
 
 function startIfReady() {

@@ -107,3 +107,121 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+
+#settings {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+}
+#settings .border {
+  background-color: #24C;
+  color: white;
+  border: 2em solid black;
+  border-radius: 2em;
+  padding: 1em;
+  margin: 3em;
+  min-width: 600px;
+  max-height: 100%;
+  overflow: auto;
+}
+#settings .title {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+}
+#settings .settings div {
+  padding: 0.5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: x-large;
+}
+#settings .settings div:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#settings .settings label {
+  display: block;
+}
+#settings .settings input[type=number] {
+  display: block;
+  border: 1px solid: #668;
+  color: white;
+  background: #128;
+  width: 4em;
+  font-size: x-large;
+}
+#settings .buttons {
+  margin-top: 1em;
+  text-align: right;
+}
+#settings .buttons button {
+  margin-left: 1em;
+  border: 1px solid #68F;
+  border-radius: 5px;
+  font-size: x-large;
+  font-weight: bold;
+  color: white;
+  background: #46F;
+}
+
+#instruction {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+}
+#instruction .border {
+  background-color: #24C;
+  color: white;
+  border: 2em solid black;
+  border-radius: 2em;
+  padding: 1em;
+  margin: 3em;
+}
+#instruction .title {
+  font-size: 120px;
+  font-weight: bold;
+  text-align: center;
+}
+#instruction .subtitle {
+  font-size: xx-large;
+  font-weight: bold;
+  text-align: center;
+}
+#instruction .ins {
+  font-size: xx-large;
+  margin: 1em;
+}
+#instruction .ins .strong {
+  color: red;
+  font-weight: bold;
+}
+#instruction .ins .highlight {
+  color: #8AF;
+  font-weight: bold;
+}
+#instruction a {
+  text-decoration: none;
+  color: #C4F;
+}
+
+@media (max-width: 1200px) {
+    #instruction .title {
+        font-size: 80px;
+    }
+    #instruction .title img {
+        width: 64px;
+    }
+}
+
+

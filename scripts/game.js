@@ -30,12 +30,19 @@
  */
 "use strict";
 
+const isDevMode = process.env.NODE_ENV === 'development';
 const requirejs = require('requirejs');
 requirejs.config({
   nodeRequire: require,
   baseUrl: __dirname,
 });
 
+// this is a hack. There's a bug when players get
+// added / removed at a certain time. I'm too laxy
+// to fix it so just reload.
+if (!isDevMode) {
+  window.addEventListener('error', window.location.reload);
+}
 
 function $(id) {
   return document.getElementById(id);
@@ -53,6 +60,7 @@ requirejs(
     '../bower_components/hft-utils/dist/imageloader',
     '../bower_components/hft-utils/dist/imageutils',
     '../bower_components/hft-utils/dist/spritemanager',
+    './settings',
     './gamemanager',
     './gamepad',
     './levelmanager',
@@ -70,6 +78,7 @@ requirejs(
     ImageLoader,
     ImageProcess,
     SpriteManager,
+    settingsUtils,
     GameManager,
     GamepadManager,
     LevelManager,
@@ -98,11 +107,11 @@ window.s = g_services;
   var stop = false;
 
   // You can set these from the URL with
-  // http://path/gameview.html?settings={name:value,name:value}
+  // gamehtml?settings={name:value,name:value}
   var globals = {
     haveServer: true,
     numLocalPlayers: 0,  // num players when local (ie, debugger)
-    ai: false,
+    ai: true,
     debug: false,
     tileInspector: false,
     showState: false,
@@ -154,6 +163,11 @@ window.s = g_services;
     columnRowSpace: 3,
   };
 window.g = globals;
+
+  const settings = settingsUtils.init();
+  Object.keys(settings).forEach((key) => {
+    g[key] = settings[key];
+  });
 
   // Expand the probabitilites for easier selection
   var probTable = [];
