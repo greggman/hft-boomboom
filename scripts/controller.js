@@ -247,6 +247,8 @@ requirejs(
     g_audioManager = new AudioManager(sounds);
 
     commonUI.setupStandardControllerUI(g_client, globals);
+    commonUI.askForNameOnce();
+    commonUI.showMenu(true);
 
     var dpads = [
       new DPad({element: $("dpadleft")}),

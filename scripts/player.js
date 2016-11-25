@@ -42,6 +42,7 @@ define([
     Bomb) {
 
   var misc = sampleUI.misc;
+  const PlayerNameManager = sampleUI.PlayerNameManager;
 
   var availableColors = [];
   var nameFontOptions = {
@@ -200,6 +201,7 @@ define([
       this.abutton = new GameButton(services.entitySystem);
       this.sprite = this.services.spriteManager.createSprite();
       this.nameSprite = this.services.spriteManager.createSprite();
+      this.playerNameManager = new PlayerNameManager(netPlayer);
 
       services.entitySystem.addEntity(this);
       services.drawSystem.addEntity(this);
@@ -234,12 +236,13 @@ define([
         u_texture: this.imageSet.avatarStandU,
       };
 
-      netPlayer.addEventListener('disconnect', Player.prototype.handleDisconnect.bind(this));
-      netPlayer.addEventListener('pad', Player.prototype.handlePadMsg.bind(this));
-      netPlayer.addEventListener('abutton', Player.prototype.handleAButtonMsg.bind(this));
-      netPlayer.addEventListener('show', Player.prototype.handleShowMsg.bind(this));
-      netPlayer.addEventListener('setName', Player.prototype.handleNameMsg.bind(this));
-      netPlayer.addEventListener('busy', Player.prototype.handleBusyMsg.bind(this));
+      netPlayer.on('disconnect', Player.prototype.handleDisconnect.bind(this));
+      netPlayer.on('pad', Player.prototype.handlePadMsg.bind(this));
+      netPlayer.on('abutton', Player.prototype.handleAButtonMsg.bind(this));
+      netPlayer.on('show', Player.prototype.handleShowMsg.bind(this));
+
+      this.playerNameManager.on('setName', Player.prototype.handleNameMsg.bind(this));
+      this.playerNameManager.on('busy', Player.prototype.handleBusyMsg.bind(this));
 
       this.setState('waiting');
     };
@@ -395,14 +398,8 @@ define([
   };
 
 
-  Player.prototype.handleNameMsg = function(msg) {
-    if (!msg.name) {
-      this.sendCmd('setName', {
-        name: this.playerName
-      });
-    } else {
-     this.setName(msg.name.replace(/[<>]/g, ''));
-    }
+  Player.prototype.handleNameMsg = function(name) {
+    this.setName(name.replace(/[<>]/g, ''));
   };
 
   Player.prototype.checkBombPlace = function() {
