@@ -48,11 +48,14 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 let gameWindow = null;
 let setupSteps = 2;
+let server;
 const state = {};
 
 args.baseDir = __dirname;
 happyfuntimes.start(args)
-.then((ports) => {
+.then((srv) => {
+  server = srv;
+  const ports = server.ports;
   console.log("Listening on ports:", ports);
   state.ports = ports;
   state.port = ports[0];
@@ -114,6 +117,7 @@ app.on('ready', () => {
 });
 
 app.on('window-all-closed', () => {
+  server.close();
   app.quit();
 });
 
