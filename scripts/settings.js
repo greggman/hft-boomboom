@@ -51,7 +51,7 @@ define([
       zoom: {
         value: 1,
         type: "Percent",
-        desc: "Zoom Amount",
+        desc: "Zoom Percent",
         min: 10,
         max: 400,
         hint: "set to smaller value to increase player limit",
@@ -85,7 +85,7 @@ define([
         max: 50,
         desc: "Number of Bombs to Start",
       },
-      bombStartingSize: {
+      bombStartSize: {
         value: 1,
         type: "Number",
         min: 1,
@@ -110,6 +110,7 @@ define([
 
 
     let settings;
+    let oldSettings;
 
     function getSettings() {
       const settingsStr = window.localStorage.getItem("settings");
@@ -128,17 +129,35 @@ define([
       window.location.reload();
     }
 
+    function exit() {
+      settings = JSON.parse(JSON.stringify(oldSettings));
+      const settingsElem = document.querySelector("#settings");
+      settingsElem.style.display = "none";
+    }
+
     function init() {
       settings = getSettings();
       const formElem = document.querySelector("#settings .settings");
       const okElem = document.querySelector("#settings .ok");
       okElem.addEventListener('click', saveAndExit);
+      const cancelElem = document.querySelector("#settings .cancel");
+      cancelElem.addEventListener('click', exit);
       form.makeForm(formElem, settingsSpec, settings);
       return settings;
     }
 
+    function show() {
+      const settingsElem = document.querySelector("#settings");
+      if (settingsElem.style.display !== "block") {
+        oldSettings = JSON.parse(JSON.stringify(settings));
+        settingsElem.style.display = "block";
+      }
+    }
+
+
     return {
       init: init,
+      show: show,
     };
 });
 

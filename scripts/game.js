@@ -106,6 +106,28 @@ window.s = g_services;
   g_services.Misc = misc;
   var stop = false;
 
+  var overlayElem = $("overlay");
+  overlayElem.addEventListener('click', showSettings);
+  overlayElem.addEventListener('touchstart', showSettings);
+  overlayElem.addEventListener('keydown', showSettings);
+  const instructionElem = $("instruction");
+  instructionElem.addEventListener('click', showSettings);
+  instructionElem.addEventListener('touchstart', showSettings);
+  instructionElem.addEventListener('keydown', showSettings);
+  instructionElem.style.display = "block";
+
+  function hideInstructions() {
+    instructionElem.style.display = "none";
+  }
+  g_services.hideInstructions = hideInstructions;
+
+  function showSettings() {
+    hideInstructions();
+    settingsUtils.show();
+  }
+
+
+
   // You can set these from the URL with
   // gamehtml?settings={name:value,name:value}
   var globals = {

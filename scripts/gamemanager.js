@@ -42,7 +42,7 @@ define([
   var strings = sampleUI.strings;
 
   var s_validScales = [
-    8, 7, 6, 5, 4, 3, 2, 1, //0.5,
+    8, 7, 6, 5, 4, 3, 2, 1, // 0.5, 0.25, 0.125,
   ];
 
   var $ = function(id) {
@@ -250,8 +250,14 @@ define([
   GameManager.prototype.state_waitForStart = function() {
     this.waitForStartUpdate();
     var globals = this.services.globals;
+    var oldTimerHR = this.timer;
     var oldTimer = this.timer | 0;
     this.timer -= globals.elapsedTime;
+
+    const halfTime = globals.waitForPlayersDuration / 2;
+    if (oldTimerHR > halfTime && this.timer <= halfTime) {
+      this.services.hideInstructions();
+    }
 
     if (this.timer <= 0) {
       this.setState('start');
