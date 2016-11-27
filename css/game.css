@@ -194,6 +194,9 @@
   font-weight: bold;
   text-align: center;
 }
+#instruction .title img {
+    width: 128px;
+}
 #instruction .subtitle {
   font-size: xx-large;
   font-weight: bold;
