@@ -11,7 +11,7 @@ joining the game have to wait for the current round to finish before they are ad
 Cloning
 -------
 
-[If you want to clone this follow the instructions here](https://github.com/greggman/HappyFunTimes/blob/master/docs/makinggames.md)
+[If you want to clone this follow the instructions here](https://docs.happyfuntimes.net/docs/makinggames.html).
 
 Attribution
 -----------
