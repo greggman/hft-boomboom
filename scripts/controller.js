@@ -31,8 +31,7 @@
 "use strict";
 
 // Start the main app logic.
-requirejs(
-  [
+requirejs([
     '../node_modules/happyfuntimes/dist/hft',
     '../node_modules/hft-sample-ui/dist/sample-ui',
     '../node_modules/hft-game-utils/dist/game-utils',
@@ -247,8 +246,8 @@ requirejs(
     g_audioManager = new AudioManager(sounds);
 
     commonUI.setupStandardControllerUI(g_client, globals);
-    commonUI.askForNameOnce();
-    commonUI.showMenu(true);
+    commonUI.askForNameOnce();   // ask for the user's name if not set
+    commonUI.showMenu(true);     // shows the gear menu
 
     var dpads = [
       new DPad({element: $("dpadleft")}),

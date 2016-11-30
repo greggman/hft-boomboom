@@ -49,8 +49,8 @@ function $(id) {
 }
 
 // Start the main app logic.
-requirejs(
-  [ 'happyfuntimes',
+requirejs([
+    'happyfuntimes',
     'hft-game-utils',
     'hft-sample-ui',
     '../bower_components/tdl/tdl/textures',
@@ -126,12 +126,7 @@ window.s = g_services;
     settingsUtils.show();
   }
 
-
-
-  // You can set these from the URL with
-  // gamehtml?settings={name:value,name:value}
   var globals = {
-    haveServer: true,
     numLocalPlayers: 0,  // num players when local (ie, debugger)
     ai: true,
     debug: false,
@@ -188,8 +183,10 @@ window.g = globals;
 
   const settings = settingsUtils.init();
   Object.keys(settings).forEach((key) => {
-    g[key] = settings[key];
+    globals[key] = settings[key];
   });
+
+  globals.numLocalPlayers = globals.numLocalPlayers || (isDevMode ? 2 : 0);
 
   // Expand the probabitilites for easier selection
   var probTable = [];
@@ -300,12 +297,9 @@ window.g = globals;
 
   g_services.globals = globals;
 
-  var server;
-  if (globals.haveServer) {
-    var server = new GameServer();
-    g_services.server = server;
-    server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));
-  }
+  var server = new GameServer();
+  g_services.server = server;
+  server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));
 
   gameSupport.init(server, globals);
   var gameManager = new GameManager(g_services);
