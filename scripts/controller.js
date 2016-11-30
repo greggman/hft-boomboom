@@ -228,19 +228,19 @@ requirejs([
     } else {
       // These messages hide/show the controller so don't handle them
       // if we're testing the controller with `forceController`
-      g_client.addEventListener('score', handleScore);
-      g_client.addEventListener('start', handleStart);
-      g_client.addEventListener('tied', handleTie);
-      g_client.addEventListener('died', handleDeath);
-      g_client.addEventListener('spoil', handleSpoil);
-      g_client.addEventListener('winner', handleWinner);
-      g_client.addEventListener('waitForStart', handleWaitForStart);
-      g_client.addEventListener('waitForNextGame', handleWaitForNextGame);
-      g_client.addEventListener('waitForMorePlayers', handleWaitForMorePlayers);
+      g_client.on('score', handleScore);
+      g_client.on('start', handleStart);
+      g_client.on('tied', handleTie);
+      g_client.on('died', handleDeath);
+      g_client.on('spoil', handleSpoil);
+      g_client.on('winner', handleWinner);
+      g_client.on('waitForStart', handleWaitForStart);
+      g_client.on('waitForNextGame', handleWaitForNextGame);
+      g_client.on('waitForMorePlayers', handleWaitForMorePlayers);
     }
-    g_client.addEventListener('numBombs', handleNumBombs);
-    g_client.addEventListener('bombSize', handleBombSize);
-    g_client.addEventListener('setColor', handleSetColor);
+    g_client.on('numBombs', handleNumBombs);
+    g_client.on('bombSize', handleBombSize);
+    g_client.on('setColor', handleSetColor);
 
     var sounds = {};
     g_audioManager = new AudioManager(sounds);
