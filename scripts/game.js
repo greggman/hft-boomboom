@@ -28,14 +28,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-"use strict";
 
-const isDevMode = process.env.NODE_ENV === 'development';
-const requirejs = require('requirejs');
-requirejs.config({
-  nodeRequire: require,
-  baseUrl: __dirname,
-});
+const isDevMode = this.process && this.process.env && this.process.env.NODE_ENV === 'development';
+const isElectron = (this.process && this.process.env);
 
 // this is a hack. There's a bug when players get
 // added / removed at a certain time. I'm too laxy
@@ -49,7 +44,7 @@ function $(id) {
 }
 
 // Start the main app logic.
-requirejs([
+define([
     'happyfuntimes',
     'hft-game-utils',
     'hft-sample-ui',
@@ -84,6 +79,8 @@ requirejs([
     LevelManager,
     PlayerManager,
     WebGLRenderer) {
+
+  "use strict";
 
   var GameServer = hft.GameServer;
   var LocalNetPlayer = hft.LocalNetPlayer;
@@ -297,9 +294,12 @@ window.g = globals;
 
   g_services.globals = globals;
 
-  var server = new GameServer();
-  g_services.server = server;
-  server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));
+  if (isElectron) {
+console.log("foo");
+    var server = new GameServer();
+    g_services.server = server;
+    server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));
+  }
 
   gameSupport.init(server, globals);
   var gameManager = new GameManager(g_services);
