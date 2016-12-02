@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta property="og:title" content="HappyFunTimes BoomBoom" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://greggman.github.io/HappyFunTimes/" />
+  <meta property="og:description" content="HappyFunTimes is a library for making party games that are meant to be played with a bunch of people in the same room and 1 ideally large display" />
+
+  <title>BoomBoom</title>
+  <link href="icon.png" rel="shortcut icon" type="image/png">
+  <link rel="stylesheet" href="node_modules/hft-sample-ui/css/game.css">
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+<div id="visual" class="hft-fullsize">
+<canvas id="playfield" class="hft-fullsize"></canvas>
+</div>
+<div id="timeContainer">
+  <div id="time"></div>
+</div>
+<div id="overlay" class="hft-fullsize">
+  <div id="overlay-inner">
+    <div id="overlay-line1"></div>
+    <div id="overlay-line2"></div>
+  </div>
+</div>
+<div id="grid">
+</div>
+<script id="persistVertexShader" type="whatever">
+attribute vec2 position;
+attribute vec2 texCoord;
+varying vec2 v_texCoord;
+void main() {
+  gl_Position = vec4(position, 0, 1);
+  v_texCoord = texCoord;
+}
+</script>
+<script id="persistFragmentShader" type="whatever">
+precision mediump float;
+uniform sampler2D newRender;
+uniform sampler2D oldRender;
+uniform float persistence;
+varying vec2 v_texCoord;
+void main() {
+  vec4 newColor = texture2D(newRender, v_texCoord);
+  vec4 oldColor = texture2D(oldRender, v_texCoord);
+  float alpha = newColor.a;
+  float mixAmount = length(newColor.xyz) * alpha;
+  mixAmount = mix(persistence, 1.0, alpha);
+  gl_FragColor =
+    vec4(
+      mix(oldColor.g, newColor.r, mixAmount),
+      mix(oldColor.b, newColor.g, mixAmount),
+      mix(oldColor.r, newColor.b, mixAmount),
+      1);
+}
+</script>
+<script id="mainVertexShader" type="whatever">
+attribute vec2 position;
+attribute vec2 texCoord;
+varying vec2 v_texCoord;
+void main() {
+  gl_Position = vec4(position, 0, 1);
+  v_texCoord = texCoord;
+}
+</script>
+<script id="mainFragmentShader" type="whatever">
+precision mediump float;
+uniform sampler2D texture;
+varying vec2 v_texCoord;
+void main() {
+  vec4 color = texture2D(texture, v_texCoord);
+  gl_FragColor = color;
+}
+</script>
+<div id="hft-connect">
+  <div id="hft-ins"></div>
+</div>
+<div id="hft-debug">
+  <pre id="hft-status"></pre>
+  <div id="hft-console"></div>
+</div>
+<div id="hft-disconnected">
+  <div class="hft-fullcenter">
+    <div class="hft-instruction">Disconnected</div>
+    <div id="hft-reload">...lost connection to happyFunTimes (T_T)...</div>
+  </div>
+</div>
+<div id="settings">
+    <div class="hft-fullcenter">
+          <div class="border">
+          <div class="title">Settings</div>
+          <div class="settings">
+          </div>
+          <div class="buttons">
+            <button class="cancel">Cancel</button>
+            <button class="ok">Ok</button>
+          </div>
+        </div>
+    </div>
+</div>
+<div id="instruction">
+    <div class="hft-fullcenter">
+        <div class="border">
+            <div class="title"><img src="icon.png">BoomBoom!<img src="icon.png"></div>
+            <div class="subtitle">Booming with 2 to 100+ players</div>
+            <div class="ins">
+                Plug in USB controllers and press a button.
+            </div>
+            <div class="ins">
+                If you'd like to play with even
+                more players get <a href="https://greggman.itch.io/boomboom">the native version that can use smartphones as controllers.</a>
+            </div>
+            <div class="ins">
+                Click or press a key for settings
+            </div>
+        </div>
+    </div>
+</div>
+<script data-main="scripts/game-web.js" src="../node_modules/requirejs/require.js"></script>
+<script>
+require.config({
+  paths: {
+    "happyfuntimes": '../node_modules/happyfuntimes/dist/hft',
+    "hft-game-utils": '../node_modules/hft-game-utils/dist/game-utils',
+    "hft-sample-ui": '../node_modules/hft-sample-ui/dist/sample-ui',
+  }
+});
+</script>
+</body>
+</html>
+
