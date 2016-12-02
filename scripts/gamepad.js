@@ -32,7 +32,7 @@
 
 define([
     'happyfuntimes',
-    'events',
+    './eventemitter',
   ], function(
     happyfuntimes,
     EventEmitter) {
