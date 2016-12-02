@@ -1,0 +1,2 @@
+requirejs(['./scripts/game'], function() {});
+
