@@ -87,7 +87,7 @@ define([], function() {
       var handlers = events[name];
       if (handlers) {
         handlers.forEach(function(handler) {
-          handler.apply(this, ...args);
+          handler(...args);
         });
       }
     };
