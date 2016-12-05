@@ -63,6 +63,12 @@ define([], function() {
     input.addEventListener('change', updateFn);
     //input.addEventListener('input', updateFn);
     div.appendChild(input);
+    //if (info.hint) {
+    //  const hint = document.createElement("div");
+    //  hint.className = "hint";
+    //  hint.textContent = info.hint;
+    //  div.appendChild(hint);
+    //}
     return div;
   }
 
@@ -73,7 +79,7 @@ define([], function() {
     div.appendChild(label);
     const input = document.createElement("input");
     input.type = "number";
-    input.value = settings[info.key] * 100 | 0;
+    input.value = settings[info.key] | 0;
     info.validFn = (newValue) => {
       newValue = newValue | 0;
       if (info.valid) {
@@ -90,12 +96,18 @@ define([], function() {
     const updateFn = (e) => {
       let newValue = info.validFn(e.target.value);
       e.target.value = newValue;
-      console.log("set:", info.key, "=", newValue / 100);
-      settings[info.key] = newValue / 100;
+      console.log("set:", info.key, "=", newValue);
+      settings[info.key] = newValue;
     };
     input.addEventListener('change', updateFn);
     //input.addEventListener('input', updateFn);
     div.appendChild(input);
+    //if (info.hint) {
+    //  const hint = document.createElement("div");
+    //  hint.className = "hint";
+    //  hint.textContent = info.hint;
+    //  div.appendChild(hint);
+    //}
     return div;
   }
 
@@ -114,6 +126,12 @@ define([], function() {
       settings[info.key] = newValue;
     });
     div.appendChild(input);
+    //if (info.hint) {
+    //  const hint = document.createElement("div");
+    //  hint.className = "hint";
+    //  hint.textContent = info.hint;
+    //  div.appendChild(hint);
+    //}
     return div;
   }
 
