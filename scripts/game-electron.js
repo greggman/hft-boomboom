@@ -3,7 +3,7 @@ requirejs.config({
   nodeRequire: require,
   baseUrl: __dirname,
   paths: {
-    "bower-components": "../bower_components",
+    "bower-components": "../3rdparty",
   },
 });
 
