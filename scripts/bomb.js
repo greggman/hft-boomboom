@@ -31,12 +31,12 @@
 "use strict";
 
 define([
-    '../bower_components/tdl/tdl/buffers',
-    '../bower_components/tdl/tdl/fast',
-    '../bower_components/tdl/tdl/math',
-    '../bower_components/tdl/tdl/models',
-    '../bower_components/tdl/tdl/primitives',
-    '../bower_components/tdl/tdl/programs',
+    'bower-components/tdl/tdl/buffers',
+    'bower-components/tdl/tdl/fast',
+    'bower-components/tdl/tdl/math',
+    'bower-components/tdl/tdl/models',
+    'bower-components/tdl/tdl/primitives',
+    'bower-components/tdl/tdl/programs',
     'hft-sample-ui',
   ], function(
     Buffers,
