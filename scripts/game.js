@@ -29,16 +29,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const isDevMode = this.process && this.process.env && this.process.env.NODE_ENV === 'development';
-const isElectron = (this.process && this.process.env);
-
-// this is a hack. There's a bug when players get
-// added / removed at a certain time. I'm too laxy
-// to fix it so just reload.
-if (!isDevMode) {
-  window.addEventListener('error', window.location.reload);
-}
-
 function $(id) {
   return document.getElementById(id);
 }
@@ -55,6 +45,7 @@ define([
     '../bower_components/hft-utils/dist/imageloader',
     '../bower_components/hft-utils/dist/imageutils',
     '../bower_components/hft-utils/dist/spritemanager',
+    './platform',
     './settings',
     './gamemanager',
     './gamepad',
@@ -73,6 +64,7 @@ define([
     ImageLoader,
     ImageProcess,
     SpriteManager,
+    platform,
     settingsUtils,
     GameManager,
     GamepadManager,
@@ -122,6 +114,17 @@ window.s = g_services;
     hideInstructions();
     settingsUtils.show();
   }
+
+  // this is a hack. There's a bug when players get
+  // added / removed at a certain time. I'm too laxy
+  // to fix it so just reload.
+  if (!platform.isDevMode && platform.global.addEventListener) {
+    platform.global.addEventListener('error', () => {
+      platform.global.location.reload();
+    });
+  }
+
+
 
   var globals = {
     numLocalPlayers: 0,  // num players when local (ie, debugger)
@@ -183,7 +186,7 @@ window.g = globals;
     globals[key] = settings[key];
   });
 
-  globals.numLocalPlayers = globals.numLocalPlayers || (isDevMode ? 2 : 0);
+  globals.numLocalPlayers = globals.numLocalPlayers || (platform.isDevMode ? 2 : 0);
 
   // Expand the probabitilites for easier selection
   var probTable = [];
@@ -294,8 +297,7 @@ window.g = globals;
 
   g_services.globals = globals;
 
-  if (isElectron) {
-console.log("foo");
+  if (platform.isElectron) {
     var server = new GameServer();
     g_services.server = server;
     server.addEventListener('playerconnect', g_playerManager.startPlayer.bind(g_playerManager));

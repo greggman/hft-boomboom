@@ -30,12 +30,16 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 "use strict";
 
 define([
     './form',
+    './platform',
   ],
-  function(form) {
+  function(
+    form,
+    platform) {
     const settingsSpec = {
       numLocalPlayers: {
         value: 0,
@@ -108,6 +112,10 @@ define([
       },
     };
 
+
+    if (platform.isBrowser) {
+      delete settingsSpec.zoom;
+    }
 
     let settings;
     let oldSettings;
