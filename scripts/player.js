@@ -32,8 +32,8 @@
 
 define([
     'hft-sample-ui',
-    'bower-components/hft-utils/dist/gamebutton',
-    'bower-components/hft-utils/dist/imageutils',
+    '../3rdparty/hft-utils/dist/gamebutton',
+    '../3rdparty/hft-utils/dist/imageutils',
     './bomb',
   ], function(
     sampleUI,

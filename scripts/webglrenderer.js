@@ -31,17 +31,17 @@
 "use strict";
 
 define(
-    [ 'bower-components/tdl/tdl/buffers',
-      'bower-components/tdl/tdl/fast',
-      'bower-components/tdl/tdl/framebuffers',
-      'bower-components/tdl/tdl/log',
-      'bower-components/tdl/tdl/math',
-      'bower-components/tdl/tdl/models',
-      'bower-components/tdl/tdl/particles',
-      'bower-components/tdl/tdl/primitives',
-      'bower-components/tdl/tdl/programs',
-      'bower-components/tdl/tdl/textures',
-      'bower-components/tdl/tdl/webgl',
+    [ '../3rdparty/tdl/tdl/buffers',
+      '../3rdparty/tdl/tdl/fast',
+      '../3rdparty/tdl/tdl/framebuffers',
+      '../3rdparty/tdl/tdl/log',
+      '../3rdparty/tdl/tdl/math',
+      '../3rdparty/tdl/tdl/models',
+      '../3rdparty/tdl/tdl/particles',
+      '../3rdparty/tdl/tdl/primitives',
+      '../3rdparty/tdl/tdl/programs',
+      '../3rdparty/tdl/tdl/textures',
+      '../3rdparty/tdl/tdl/webgl',
     ], function(
       Buffers,
       Fast,

@@ -32,7 +32,7 @@
 
 define([
     'hft-sample-ui',
-    'bower-components/hft-utils/dist/grid',
+    '../3rdparty/hft-utils/dist/grid',
   ], function(
     sampleUI,
     Grid) {

@@ -32,7 +32,7 @@
 
 define([
     'hft-sample-ui',
-    'bower-components/hft-utils/dist/tilemap',
+    '../3rdparty/hft-utils/dist/tilemap',
   ], function(sampleUI, TileMap) {
 
   var misc = sampleUI.misc;
