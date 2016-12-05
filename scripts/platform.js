@@ -36,11 +36,21 @@ const isElectron = (this.process && this.process.env);
 const global = this;
 
 define([], function() {
+
+  function zoom(zoomFactor) {
+    if (isElectron) {
+      const remote = require('electron').remote;
+      const webContents = remote.getCurrentWebContents();
+      webContents.setZoomFactor(zoomFactor);
+    }
+  }
+
   return {
     isDevMode: isDevMode,
     isElectron: isElectron,
     isBrowser: !isElectron,
     global: global,
+    zoom: zoom,
   };
 });
 

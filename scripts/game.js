@@ -188,6 +188,8 @@ window.g = globals;
 
   globals.numLocalPlayers = globals.numLocalPlayers || (platform.isDevMode ? 2 : 0);
 
+  platform.zoom(settings.zoom / 100);
+
   // Expand the probabitilites for easier selection
   var probTable = [];
   for (var ii = 0; ii < globals.crateProb.length; ++ii) {
