@@ -144,8 +144,14 @@ console.log("mapping:", mapping);
       window.addEventListener("gamepadconnected", this._handleConnect);
       window.addEventListener("gamepaddisconnected", this._handleDisconnect);
     }
+    _addPlayerForGamepadIfNew(gamepad) {
+      let player = this._controllers[gamepad.index];
+      if (!player) {
+        this._addGamepad(gamepad);
+      }
+    }
     _handleConnect(e) {
-      this._addGamepad(e.gamepad);
+      this._addPlayerForGamepadIfNew(e.gamepad);
     }
 
     _handleDisconnect(e) {
@@ -157,6 +163,7 @@ console.log("mapping:", mapping);
       const player = new GamepadPlayer(gamepad, mapping);
       this._controllers[gamepad.index] = player;
       this.emit('playerconnect', player, gamepad.index);
+      return player;
     }
 
     _removeGamepad(gamepad) {
@@ -175,10 +182,7 @@ console.log("mapping:", mapping);
       for (let i = 0; i < gamepads.length; i++) {
         const gamepad = gamepads[i]
         if (gamepad) {
-          const player = this._controllers[gamepad.index];
-          //if (!player) {
-          //  this._addGamepad(gamepad);
-          //}
+          this._addPlayerForGamepadIfNew(gamepad);
         }
       }
       // FIX: Object.keys maks a new array.
