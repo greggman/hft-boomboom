@@ -273,7 +273,7 @@ define([
 
     var needBiggerLevel = numPlayersConnected > this.maxPlayersBeforeNeedingLowerScale && globals.scale > 1;
     var needSmallerLevel = numPlayersConnected < this.minPlayersBeforeNeedingHigherScale && globals.scale < 8;
-    if (needBiggerLevel || needSmallerLevel) {
+    if (!globals.forceScale && (needBiggerLevel || needSmallerLevel)) {
       this.reset();
       return;
     }
