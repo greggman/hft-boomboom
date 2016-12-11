@@ -9,7 +9,8 @@ It's an arena bombing game. One thing it shows over other games is round based c
 joining the game have to wait for the current round to finish before they are added.
 
 You can play the happyfuntimes version (the one that supports smartphones) [here](https://greggman.itch.io/boomboom).
-Or you can play a USB controller only version [here](https://greggman.github.io/hft-boomboom).
+Or you can play a USB controller only version [here](https://greggman.github.io/hft-boomboom). If you're on
+mobile or you just want to see it run click [here](http://greggman.github.io/hft-boomboom/?settings={numLocalPlayers:125,forceScale:true,scale:1,bombStartSize:10})
 
 Cloning
 -------
