@@ -228,4 +228,35 @@
     }
 }
 
+@media (max-width: 600px) {
+    #overlay-inner {
+      font-size: 20px;
+      border-radius: 15px;
+    }
+    #instruction .title {
+        font-size: 20px;
+    }
+    #instruction .title img {
+        width: 16px;
+    }
+    #instruction .subtitle {
+        font-size: small;
+    }
+    #instruction .ins {
+        font-size: small;
+    }
 
+    #settings .border {
+      min-width: auto;
+    }
+    #settings .settings div {
+      font-size: medium;
+    }
+    #settings .settings input[type=number] {
+      font-size: medium;
+    }
+    #settings .buttons button {
+      font-size: medium;
+    }
+
+}
