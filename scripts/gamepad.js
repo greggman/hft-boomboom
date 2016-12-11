@@ -178,6 +178,9 @@ console.log("mapping:", mapping);
     }
 
     process() {
+      if (!navigator.getGamepads) {
+        return;
+      }
       const gamepads = navigator.getGamepads();
       for (let i = 0; i < gamepads.length; i++) {
         const gamepad = gamepads[i]
